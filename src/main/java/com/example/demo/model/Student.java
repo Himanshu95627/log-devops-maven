@@ -10,33 +10,48 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 @Entity
 @Table(name="student")
 @NoArgsConstructor
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int enrollment;
-	@Column(name = "amount")
-	private double amount;
-	@Column(name = "catagory")
-	private String catagory;
-	
-	public double getAmount() {
-		return this.amount;
-	}
-	
-	public String getCatagory() {
-		return this.catagory;
-	}
-	
-	public void setAmount(double amt) {
-		this.amount= amt;
-	}
-	
-	public void setCatagory(String catagory) {
-		this.catagory= catagory;
-	}
-	
+	private int id;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "age")
+	private int age;
+	@Column(name = "gender")
+	private String gender;
+	@Column(name = "address")
+	private String address;
+	@Column(name = "city")
+	private String city;
+	@Column(name = "state")
+	private String state;
+	@Column(name = "pincode")
+	private String pincode;
+	@Column(name = "email")
+	private String email;
+	@Column(name = "mobile")
+	private String mobile;
+	@Column(name = "person_role")
+	private String personRole;
+	@Column(name = "college")
+	private String college;
+	@Column(name = "company")
+	private String company;
+	@Column(name = "designation")
+	private String designation;
+	@Column(name = "experience")
+	private double experience;
+	@Column(name = "creation_date")
+	private LocalDateTime creationDate;
+	@Column(name = "last_updated_date")
+	private LocalDateTime lastUpdatedDate;
 	
 }

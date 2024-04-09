@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Slf4j
 @RestController
 @RequestMapping("api")
@@ -25,26 +28,27 @@ public class StudentController {
 
 	@PostMapping("/register")
 	public ResponseEntity<String> registerStudent(@RequestBody Student student) {
-		Student student2 = new Student();
-		student2.setAmount(student.getAmount());
-		student2.setCatagory(student.getCatagory());
-		dao.save(student2);
+		student.setCreationDate(LocalDateTime.now());
+		student.setLastUpdatedDate(LocalDateTime.now());
+		dao.save(student);
 		return ResponseEntity.ok("student saved successfully");
 	}
 	
 	@GetMapping("/fetch/{id}")
-	public Student fetchStudent(@PathVariable("id") Integer id) {
-		return dao.findByEnrollment(id);
+	public Optional<Student> fetchStudent(@PathVariable("id") Integer id) {
+		return dao.findById(id);
 	}
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<String> updateStudentDetails(@PathVariable("id") Integer id,
 			@RequestBody Student student) {
-		Student student2= dao.findByEnrollment(id);
-		student2.setAmount(student.getAmount());
-		student2.setCatagory(student.getCatagory());
-		dao.save(student2);
-		return ResponseEntity.ok("student updated successfully");
+		Optional<Student> student2 = dao.findById(id);
+		if(student2.isPresent()) {
+			dao.save(student);
+			student.setLastUpdatedDate(LocalDateTime.now());
+			return ResponseEntity.ok("student updated successfully");
+		}
+		return ResponseEntity.badRequest().body("Student does not exist");
 	}
 	
 	@DeleteMapping("/delete/{id}")
