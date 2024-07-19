@@ -68,7 +68,7 @@ public class StudentController {
 			kafkaTemplate.send(ApplicationConstant.TOPIC_NAME,String.valueOf(randomNumber));
 			log.info("OTP : " + randomNumber);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
 		return "OTP has been sent successfully";
 	}
