@@ -65,7 +65,7 @@ public class StudentController {
 		try {
 			Random random = new Random();
 			int randomNumber = 100000 + random.nextInt(900000);
-			kafkaTemplate.send(ApplicationConstant.TOPIC_NAME, randomNumber);
+			kafkaTemplate.send(ApplicationConstant.TOPIC_NAME,String.valueOf(randomNumber));
 			log.info("OTP : " + randomNumber);
 		} catch (Exception e) {
 			e.printStackTrace();
