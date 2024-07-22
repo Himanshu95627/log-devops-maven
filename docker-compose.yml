@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: student_enrolment
+      MYSQL_ROOT_PASSWORD: Bayer$4039
+    ports:
+      - "3307:3306"
+
+#  app:
+#    image: your-spring-boot-app-image
+#    depends_on:
+#      - kafka
+#      - mysql
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/student_enrolment
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: Bayer$4039
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+#      KAFKA_LOCAL_SERVER_CONFIG: kafka:9092
+#      GROUP_ID_STRING: group-id-string-1
+#      TOPIC_NAME: logdevops
+#      KAFKA_LISTENER_CONTAINER_FACTORY: kafkaListenerContainerFactory
+#      GROUP_ID_JSON: group-id-json-1
+#      SPRING_APPLICATION_NAME: spring-logdevops
+#      SERVER_PORT: 9020
+#      SERVER_SERVLET_CONTEXT_PATH: /student
+#    ports:
+#      - "9020:9020"
+#    volumes:
+#      - ./your-app-directory:/app
+#    command: ["java", "-jar", "/app/your-spring-boot-app.jar"]
+#
+#networks:
+#  default:
+#    external:
+#      name: my_network
